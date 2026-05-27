@@ -1,0 +1,20 @@
+<script setup>
+import { cn } from '@/lib/utils'
+
+const props = defineProps({
+  class: {
+    type: [Boolean, null, String, Object, Array],
+    required: false,
+    skipCheck: true,
+  },
+})
+</script>
+
+<template>
+  <div
+    data-slot="card"
+    :class="cn('bg-card text-card-foreground flex flex-col gap-6 rounded-xl  py-6', props.class)"
+  >
+    <slot />
+  </div>
+</template>
