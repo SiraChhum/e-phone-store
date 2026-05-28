@@ -195,7 +195,7 @@ onBeforeUnmount(() => {
         >
           <div class="overflow-hidden">
             <img
-              :src="`/api/image/product/${product.image}`"
+              :src="product.image"
               class="h-64 w-full object-cover group-hover:scale-110 transition duration-500"
             />
           </div>
@@ -440,7 +440,7 @@ onBeforeUnmount(() => {
         <!-- Image -->
         <div class="bg-gray-100 flex items-center justify-center p-8 relative">
           <img
-            :src="`/api/image/product/${selectProduct.image}`"
+            :src="selectProduct.image"
             :alt="selectProduct.name"
             class="w-full max-w-[350px] object-contain hover:scale-105 transition duration-300"
           />

@@ -156,7 +156,7 @@ onMounted(async () => {
                   class="aspect-[4/3] w-full rounded-2xl bg-neutral-50/80 overflow-hidden mb-5 flex items-center justify-center p-4"
                 >
                   <img
-                    :src="`/api/image/product/${product.image}`"
+                    :src="product.image"
                     :alt="product.name"
                     class="object-contain max-h-full w-auto mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-105"
                   />
@@ -208,7 +208,7 @@ onMounted(async () => {
           <!-- Image -->
           <div class="bg-gray-100 flex items-center justify-center p-8 relative">
             <img
-              :src="`/api/image/product/${selectProduct.image}`"
+              :src="selectProduct.image"
               :alt="selectProduct.name"
               class="w-full max-w-[350px] object-contain hover:scale-105 transition duration-300"
             />

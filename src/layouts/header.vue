@@ -294,7 +294,7 @@
             >
               <img
                 v-if="item.product?.image"
-                :src="`/api/image/product/${item.product.image}`"
+                :src="product.image"
                 class="object-contain w-full h-full mix-blend-multiply"
               />
               <i v-else class="pi pi-image text-gray-300 text-2xl"></i>
@@ -436,7 +436,12 @@
                 <i v-if="authStore.loading" class="pi pi-spinner animate-spin text-sm"></i>
                 <span>{{ authStore.loading ? 'Signing in...' : 'Sign In' }}</span>
               </Button>
-              <Button @click="handleGoogleLogin" type="button" variant="outline" class="w-full h-10 rounded-xl border-slate-200 text-slate-600 hover:bg-slate-50 cursor-pointer">
+              <Button
+                @click="handleGoogleLogin"
+                type="button"
+                variant="outline"
+                class="w-full h-10 rounded-xl border-slate-200 text-slate-600 hover:bg-slate-50 cursor-pointer"
+              >
                 Login with Google
               </Button>
             </div>

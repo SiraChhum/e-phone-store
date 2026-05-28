@@ -188,27 +188,57 @@ const handleCheckout = async () => {
                 @click="paymentMethod = 'COD'"
                 :class="[
                   'border-2 rounded-2xl p-5 flex items-center gap-4 cursor-pointer transition-all duration-300',
-                  paymentMethod === 'COD' ? 'bg-blue-50/80 border-blue-500 shadow-[0_4px_20px_rgba(59,130,246,0.15)]' : 'bg-white border-neutral-200 hover:border-blue-200'
+                  paymentMethod === 'COD'
+                    ? 'bg-blue-50/80 border-blue-500 shadow-[0_4px_20px_rgba(59,130,246,0.15)]'
+                    : 'bg-white border-neutral-200 hover:border-blue-200',
                 ]"
               >
-                <i :class="['text-2xl transition-colors', paymentMethod === 'COD' ? 'pi pi-check-circle text-blue-600' : 'pi pi-circle text-neutral-300']"></i>
+                <i
+                  :class="[
+                    'text-2xl transition-colors',
+                    paymentMethod === 'COD'
+                      ? 'pi pi-check-circle text-blue-600'
+                      : 'pi pi-circle text-neutral-300',
+                  ]"
+                ></i>
                 <div class="flex flex-col">
-                  <span :class="['font-bold text-lg', paymentMethod === 'COD' ? 'text-blue-800' : 'text-neutral-700']">Cash on Delivery (COD)</span>
+                  <span
+                    :class="[
+                      'font-bold text-lg',
+                      paymentMethod === 'COD' ? 'text-blue-800' : 'text-neutral-700',
+                    ]"
+                    >Cash on Delivery (COD)</span
+                  >
                   <span class="text-xs text-neutral-500">Pay when you receive your order</span>
                 </div>
               </div>
-              
+
               <!-- KHQR Option -->
               <div
                 @click="paymentMethod = 'KHQR'"
                 :class="[
                   'border-2 rounded-2xl p-5 flex items-center gap-4 cursor-pointer transition-all duration-300',
-                  paymentMethod === 'KHQR' ? 'bg-blue-50/80 border-blue-500 shadow-[0_4px_20px_rgba(59,130,246,0.15)]' : 'bg-white border-neutral-200 hover:border-blue-200'
+                  paymentMethod === 'KHQR'
+                    ? 'bg-blue-50/80 border-blue-500 shadow-[0_4px_20px_rgba(59,130,246,0.15)]'
+                    : 'bg-white border-neutral-200 hover:border-blue-200',
                 ]"
               >
-                <i :class="['text-2xl transition-colors', paymentMethod === 'KHQR' ? 'pi pi-check-circle text-blue-600' : 'pi pi-circle text-neutral-300']"></i>
+                <i
+                  :class="[
+                    'text-2xl transition-colors',
+                    paymentMethod === 'KHQR'
+                      ? 'pi pi-check-circle text-blue-600'
+                      : 'pi pi-circle text-neutral-300',
+                  ]"
+                ></i>
                 <div class="flex flex-col">
-                  <span :class="['font-bold text-lg', paymentMethod === 'KHQR' ? 'text-blue-800' : 'text-neutral-700']">KHQR</span>
+                  <span
+                    :class="[
+                      'font-bold text-lg',
+                      paymentMethod === 'KHQR' ? 'text-blue-800' : 'text-neutral-700',
+                    ]"
+                    >KHQR</span
+                  >
                   <span class="text-xs text-neutral-500">Scan to pay instantly</span>
                 </div>
               </div>
@@ -216,12 +246,23 @@ const handleCheckout = async () => {
 
             <!-- KHQR Sample Image -->
             <transition name="fade">
-              <div v-if="paymentMethod === 'KHQR'" class="mt-4 flex flex-col items-center bg-white p-6 rounded-2xl border border-neutral-200 shadow-sm animate-[slideUp_0.3s_ease-out]">
+              <div
+                v-if="paymentMethod === 'KHQR'"
+                class="mt-4 flex flex-col items-center bg-white p-6 rounded-2xl border border-neutral-200 shadow-sm animate-[slideUp_0.3s_ease-out]"
+              >
                 <p class="text-sm font-bold text-neutral-700 mb-4">Scan the QR Code below to pay</p>
-                <div class="w-48 h-48 bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center p-2">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="KHQR Sample" class="w-full h-full object-contain mix-blend-multiply" />
+                <div
+                  class="w-48 h-48 bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center p-2"
+                >
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
+                    alt="KHQR Sample"
+                    class="w-full h-full object-contain mix-blend-multiply"
+                  />
                 </div>
-                <p class="text-xs text-neutral-500 mt-4 text-center">This is a dynamic sample QR code for testing purposes.</p>
+                <p class="text-xs text-neutral-500 mt-4 text-center">
+                  This is a dynamic sample QR code for testing purposes.
+                </p>
               </div>
             </transition>
           </form>
@@ -245,7 +286,7 @@ const handleCheckout = async () => {
                 >
                   <img
                     v-if="item.product?.image"
-                    :src="`/api/image/product/${item.product.image}`"
+                    :src="item.product.image"
                     class="object-contain w-full h-full mix-blend-multiply"
                   />
                   <i v-else class="pi pi-image text-neutral-300 text-xl"></i>
