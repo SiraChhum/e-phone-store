@@ -294,7 +294,7 @@
             >
               <img
                 v-if="item.product?.image"
-                :src="product.image"
+                :src="product?.image"
                 class="object-contain w-full h-full mix-blend-multiply"
               />
               <i v-else class="pi pi-image text-gray-300 text-2xl"></i>
