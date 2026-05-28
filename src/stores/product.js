@@ -12,8 +12,6 @@ export const useProductStore = defineStore('product', {
       try {
         const data = await productService.listProduct()
 
-        console.log('DATA:', data)
-
         this.products = data
       } catch (error) {
         console.log(error)

@@ -62,7 +62,6 @@ export const useAuthStore = defineStore('auth', () => {
 
       // Handle different response structures: response.data or response itself if it's an array
       users.value = Array.isArray(response) ? response : response.data || []
-      console.log('Populated users list:', users.value)
       localStorage.setItem('users', JSON.stringify(users.value))
 
       return {
@@ -88,11 +87,9 @@ export const useAuthStore = defineStore('auth', () => {
 
     try {
       const response = await authService.listCustomer()
-      console.log(response.data)
 
       // Handle different response structures: response.data or response itself if it's an array
       customers.value = Array.isArray(response) ? response : response.data
-      console.log('Populated customers list:', customers.value)
       localStorage.setItem('customers', JSON.stringify(customers.value))
 
       return {

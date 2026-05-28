@@ -12,8 +12,8 @@
           <!-- Placeholder for product image -->
           <div class="w-16 h-16 bg-gray-200 rounded-md overflow-hidden">
             <img
-              v-if="item.products?.image"
-              :src="item.products.image"
+              v-if="item.product?.image"
+              :src="item.product.image"
               class="w-full h-full object-cover"
             />
           </div>
