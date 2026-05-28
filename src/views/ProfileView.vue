@@ -3,9 +3,13 @@ import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import api from '@/lib/axios'
 
-const authStore = useAuthStore()
-const orders = ref([])
-const loading = ref(true)
+const showOrderDialog = ref(false)
+const selectedOrder = ref(null)
+
+const openOrderDialog = (order) => {
+  selectedOrder.value = order
+  showOrderDialog.value = true
+}
 
 const fetchUserOrders = async () => {
   loading.value = true
@@ -56,42 +60,63 @@ const getStatusColor = (status) => {
     <div class="h-20 bg-white border-b border-neutral-100"></div>
     <!-- spacing for header -->
 
-    <div class="max-w-5xl mx-auto px-4 py-10">
+    <div class="max-w-5xl mx-auto px-3 sm:px-4 py-6 sm:py-10">
       <h1 class="text-3xl md:text-4xl font-extrabold text-neutral-900 mb-8 tracking-tight">
         My Profile
       </h1>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8 items-start">
         <!-- Profile Info Sidebar -->
         <div
           class="md:col-span-1 bg-white p-6 rounded-[2rem] border border-neutral-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] sticky top-28"
         >
-          <div class="flex flex-col items-center text-center">
-            <div
-              class="w-24 h-24 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4 text-3xl font-bold uppercase shadow-sm"
-            >
-              {{
-                authStore.user?.full_name?.charAt(0) || authStore.user?.username?.charAt(0) || 'U'
-              }}
-            </div>
-            <h2 class="text-xl font-bold text-neutral-800 mb-1">
-              {{ authStore.user?.full_name || authStore.user?.username || 'User' }}
-            </h2>
-            <p class="text-sm text-neutral-500 font-medium mb-6">
-              {{ authStore.user?.email || 'No email provided' }}
-            </p>
-
-            <div class="w-full border-t border-neutral-100 pt-6">
-              <div class="flex justify-between items-center mb-4">
-                <span class="text-sm text-neutral-500">Role</span>
-                <span
-                  class="text-sm font-bold text-neutral-800 capitalize bg-neutral-100 px-3 py-1 rounded-full"
-                  >{{ authStore.user?.role || 'Customer' }}</span
-                >
+          <!-- Profile Info Sidebar -->
+          <div
+            class="md:col-span-1 bg-white p-4 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] border border-neutral-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] md:sticky md:top-28"
+          >
+            <div class="flex flex-col items-center text-center">
+              <!-- Avatar -->
+              <div
+                class="w-20 h-20 sm:w-24 sm:h-24 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4 text-2xl sm:text-3xl font-bold uppercase shadow-sm flex-shrink-0"
+              >
+                {{
+                  authStore.user?.full_name?.charAt(0) || authStore.user?.username?.charAt(0) || 'U'
+                }}
               </div>
-              <div class="flex justify-between items-center mb-4">
-                <span class="text-sm text-neutral-500">Total Orders</span>
-                <span class="text-sm font-bold text-neutral-800">{{ orders.length }}</span>
+
+              <!-- Name -->
+              <h2 class="text-lg sm:text-xl font-bold text-neutral-800 mb-1 break-words max-w-full">
+                {{ authStore.user?.full_name || authStore.user?.username || 'User' }}
+              </h2>
+
+              <!-- Email -->
+              <p
+                class="text-xs sm:text-sm text-neutral-500 font-medium mb-5 sm:mb-6 break-all max-w-full"
+              >
+                {{ authStore.user?.email || 'No email provided' }}
+              </p>
+
+              <!-- Stats -->
+              <div class="w-full border-t border-neutral-100 pt-4 sm:pt-6 space-y-3">
+                <!-- Role -->
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <span class="text-sm text-neutral-500">Role</span>
+
+                  <span
+                    class="text-sm font-bold text-neutral-800 capitalize bg-neutral-100 px-3 py-1 rounded-full text-center"
+                  >
+                    {{ authStore.user?.role || 'Customer' }}
+                  </span>
+                </div>
+
+                <!-- Orders -->
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <span class="text-sm text-neutral-500">Total Orders</span>
+
+                  <span class="text-sm font-bold text-neutral-800">
+                    {{ orders.length }}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -159,6 +184,12 @@ const getStatusColor = (status) => {
                       {{ formatPrice(order.total_amount) }}
                     </p>
                   </div>
+                  <button
+                    @click="openOrderDialog(order)"
+                    class="text-sm text-blue-600 hover:underline ml-auto"
+                  >
+                    View Details
+                  </button>
                 </div>
               </div>
 
@@ -193,6 +224,49 @@ const getStatusColor = (status) => {
               </div>
             </div>
           </div>
+          <!-- Order Detail Dialog -->
+          <Dialog
+            v-model:visible="showOrderDialog"
+            modal
+            :header="'Order #' + (selectedOrder?.order_id || '')"
+            class="w-full max-w-md sm:max-w-lg"
+            :style="{ maxHeight: '80vh' }"
+          >
+            <div v-if="selectedOrder" class="overflow-y-auto" style="max-height: 70vh">
+              <div class="space-y-4">
+                <div
+                  v-for="item in selectedOrder.order_items"
+                  :key="item.product_id"
+                  class="flex items-center gap-4"
+                >
+                  <div
+                    class="w-16 h-16 bg-neutral-50 rounded-xl flex items-center justify-center p-2 border border-neutral-100 flex-shrink-0"
+                  >
+                    <img
+                      v-if="item.product?.image"
+                      :src="item.product.image"
+                      class="object-contain w-full h-full mix-blend-multiply"
+                    />
+                    <i v-else class="pi pi-image text-neutral-300 text-lg"></i>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <h4 class="text-sm font-bold text-neutral-800 truncate">
+                      {{ item.product_name || item.product?.name || 'Unknown Product' }}
+                    </h4>
+                    <p class="text-xs text-neutral-500 mt-1 font-medium">
+                      Qty: {{ item.qty }} x {{ formatPrice(item.price) }}
+                    </p>
+                  </div>
+                  <div class="text-sm font-bold text-neutral-900">
+                    {{ formatPrice(item.subtotal || item.price * item.qty) }}
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 text-right font-bold text-lg text-blue-600">
+                Total: {{ formatPrice(selectedOrder.total_amount) }}
+              </div>
+            </div>
+          </Dialog>
         </div>
       </div>
     </div>
