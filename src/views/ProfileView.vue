@@ -163,64 +163,19 @@ const getStatusColor = (status) => {
             >
           </div>
 
-          <div v-else class="space-y-5">
+          <div class="space-y-5">
             <div
-              v-for="order in orders"
-              :key="order.order_id"
               class="bg-white rounded-3xl border border-neutral-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
             >
-              <!-- Header -->
-              <div
-                class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 p-5 md:p-6 border-b border-neutral-100"
-              >
-                <div class="space-y-1">
-                  <p class="text-xs font-semibold tracking-[0.2em] text-neutral-400 uppercase">
-                    Order #{{ order.order_id }}
-                  </p>
-
-                  <p class="text-sm text-neutral-600 font-medium">
-                    {{ formatDate(order.createdAt || order.created_at) }}
-                  </p>
-                </div>
-
-                <div class="flex flex-wrap items-center gap-3">
-                  <span
-                    :class="[
-                      'px-4 py-1.5 rounded-full text-xs font-bold border',
-                      getStatusColor(order.order_status),
-                    ]"
-                  >
-                    {{ order.order_status }}
-                  </span>
-
-                  <div class="bg-blue-50 px-4 py-2 rounded-2xl">
-                    <p class="text-[11px] uppercase tracking-wider text-blue-400 font-semibold">
-                      Total
-                    </p>
-
-                    <p class="text-lg font-black text-blue-600 leading-none">
-                      {{ formatPrice(order.total_amount) }}
-                    </p>
-                  </div>
-
-                  <!-- Clean Button -->
-                  <button
-                    @click="openOrderDialog(order)"
-                    class="px-5 py-2.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-all duration-200 shadow-sm"
-                  >
-                    View Order
-                  </button>
-                </div>
-              </div>
-
               <!-- Order Items -->
               <div class="p-5 md:p-6 space-y-4">
                 <div
-                  v-for="item in order.order_items"
+                  v-for="item in orders.order_items"
                   :key="item.product_id"
                   class="flex items-center gap-4 bg-neutral-50 hover:bg-neutral-100 transition rounded-2xl p-3"
                 >
                   <!-- Product Image -->
+                  {{ order.order_status }}
                   <div
                     class="w-16 h-16 rounded-2xl bg-white border border-neutral-200 flex items-center justify-center overflow-hidden flex-shrink-0"
                   >
