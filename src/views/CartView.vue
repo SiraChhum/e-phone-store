@@ -14,7 +14,7 @@
             <img
               v-if="item.product?.image"
               :src="item.product.image"
-              class="w-full h-full object-cover"
+              class="object-contain w-full h-full mix-blend-multiply"
             />
           </div>
           <div>

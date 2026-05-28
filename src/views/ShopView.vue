@@ -32,7 +32,6 @@ const toggleMobileCategories = () => {
 }
 
 const selectCategory = (category) => {
-  console.log('selected category', category)
   selectedCategory.value = category
 }
 
@@ -99,7 +98,6 @@ const showDetail = (product) => {
 
 onMounted(async () => {
   await productStore.fetchProducts()
-  console.log(productStore.products)
 })
 </script>
 
