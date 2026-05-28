@@ -10,12 +10,13 @@
       >
         <div class="flex items-center space-x-4">
           <!-- Placeholder for product image -->
-          <div class="w-16 h-16 bg-gray-200 rounded-md overflow-hidden">
+<div class="w-16 h-16 bg-gray-200 rounded-md overflow-hidden flex items-center justify-center">
             <img
               v-if="item.product?.image"
               :src="item.product.image"
               class="object-contain w-full h-full mix-blend-multiply"
             />
+            <i v-else class="pi pi-image text-neutral-300 text-xl"></i>
           </div>
           <div>
             <p class="font-medium text-slate-800">
