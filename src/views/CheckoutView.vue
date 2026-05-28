@@ -64,7 +64,9 @@ const handleCheckout = async () => {
       order_items: orderItems,
     }
 
+    console.log('Sending order payload:', payload)
     const response = await api.post('/orders/create', payload)
+    console.log('Response:', response)
 
     if (response.status === 201 || response.status === 200) {
       submitSuccess.value = true
@@ -81,8 +83,13 @@ const handleCheckout = async () => {
       }, 3000)
     }
   } catch (error) {
-    console.error(error)
-    errorMessage.value = 'An error occurred while placing your order. Please try again.'
+    console.error('Order creation error:', error)
+    if (error.response && error.response.data) {
+      console.error('Server message:', error.response.data)
+      errorMessage.value = error.response.data.message || 'An error occurred while placing your order.'
+    } else {
+      errorMessage.value = 'An error occurred while placing your order. Please try again.'
+    }
   } finally {
     isSubmitting.value = false
   }
