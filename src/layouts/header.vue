@@ -293,10 +293,9 @@
               class="w-20 h-20 bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center p-2 flex-shrink-0"
             >
               <img
-                v-if="item.product?.image"
-                :src="product?.image"
-                class="object-contain w-full h-full mix-blend-multiply"
-              />
+                  v-if="item.product?.image"
+                  :src="item.product?.image"
+                  class="object-contain w-full h-full mix-blend-multiply" />
               <i v-else class="pi pi-image text-gray-300 text-2xl"></i>
             </div>
             <div class="flex-1 flex flex-col justify-between">
