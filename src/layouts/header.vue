@@ -276,11 +276,7 @@
     <SheetContent side="right" class="flex flex-col h-full sm:max-w-md w-full p-0">
       <div class="flex items-center justify-between p-6 border-b">
         <h2 class="text-xl font-bold">Your Cart</h2>
-        <SheetClose asChild>
-          <button class="text-gray-500 hover:text-gray-700 transition">
-            <i class="pi pi-times text-lg"></i>
-          </button>
-        </SheetClose>
+        <SheetClose asChild> </SheetClose>
       </div>
       <div class="p-6 flex-1 overflow-y-auto">
         <ul class="space-y-6" v-if="cartStore.items && cartStore.items.length > 0">
@@ -293,10 +289,10 @@
               class="w-20 h-20 bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center p-2 flex-shrink-0"
             >
               <img
-                  v-if="item.product?.image"
-                  :src="item.product?.image"
-                  class="object-contain w-full h-full mix-blend-multiply" />
-              <i v-else class="pi pi-image text-gray-300 text-2xl"></i>
+                v-if="item.product?.image"
+                :src="item.product.image"
+                class="object-contain w-full h-full mix-blend-multiply"
+              /><i v-else class="pi pi-image text-gray-300 text-2xl"></i>
             </div>
             <div class="flex-1 flex flex-col justify-between">
               <div class="flex justify-between items-start gap-2">
