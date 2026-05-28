@@ -2,15 +2,26 @@
 import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import api from '@/lib/axios'
+import Dialog from 'primevue/dialog'
 const authStore = useAuthStore()
 const orders = ref([])
 const loading = ref(true)
 const showOrderDialog = ref(false)
 const selectedOrder = ref(null)
 
-const openOrderDialog = (order) => {
-  selectedOrder.value = order
-  showOrderDialog.value = true
+const openOrderDialog = async (order) => {
+  try {
+    // If order does not contain full details (e.g., order_items), fetch them
+    if (!order.order_items) {
+      const response = await api.get(`/orders/${order.order_id}`)
+      selectedOrder.value = response.data
+    } else {
+      selectedOrder.value = order
+    }
+    showOrderDialog.value = true
+  } catch (err) {
+    console.error('Failed to load order details', err)
+  }
 }
 
 const fetchUserOrders = async () => {
@@ -70,11 +81,11 @@ const getStatusColor = (status) => {
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8 items-start">
         <!-- Profile Info Sidebar -->
         <div
-          class="md:col-span-1 bg-white p-6 rounded-[2rem] border border-neutral-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] sticky top-28"
+          class="md:col-span-1 bg-white p-6 rounded-[2rem] border border-neutral-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] md:top-28"
         >
           <!-- Profile Info Sidebar -->
           <div
-            class="md:col-span-1 bg-white p-4 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] border border-neutral-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] md:sticky md:top-28"
+            class="md:col-span-1 bg-white p-4 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] border border-neutral-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] md:top-28"
           >
             <div class="flex flex-col items-center text-center">
               <!-- Avatar -->
