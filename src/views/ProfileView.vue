@@ -2,7 +2,9 @@
 import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import api from '@/lib/axios'
-
+const authStore = useAuthStore()
+const orders = ref([])
+const loading = ref(true)
 const showOrderDialog = ref(false)
 const selectedOrder = ref(null)
 
