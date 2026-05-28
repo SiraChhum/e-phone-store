@@ -194,12 +194,12 @@ const getStatusColor = (status) => {
                   >
                     {{ order.order_status }}
                   </span>
-                  <button
+                  <!-- <button
                     @click="openOrderDialog(order)"
                     class="text-blue-600 hover:underline text-sm font-medium"
                   >
                     View Details
-                  </button>
+                  </button> -->
                 </div>
               </div>
               <div
