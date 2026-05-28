@@ -11,25 +11,25 @@ const selectedOrder = ref(null)
 
 const openOrderDialog = async (order) => {
   try {
-    const orderId = order.order_id || order.id;
+    const orderId = order.order_id || order.id
     // If order does not contain full details (e.g., order_items), fetch them
     if (!order.order_items) {
-      const response = await api.get(`/orders/${orderId}`);
-      selectedOrder.value = response.data;
+      const response = await api.get(`/orders/${orderId}`)
+      selectedOrder.value = response.data
     } else {
-      selectedOrder.value = order;
+      selectedOrder.value = order
     }
-    showOrderDialog.value = true;
+    showOrderDialog.value = true
   } catch (err) {
-    console.error('Failed to load order details', err);
+    console.error('Failed to load order details', err)
   }
-};
+}
 
 watch(showOrderDialog, (newVal) => {
   if (!newVal) {
-    selectedOrder.value = null;
+    selectedOrder.value = null
   }
-});
+})
 
 const fetchUserOrders = async () => {
   loading.value = true
@@ -171,32 +171,64 @@ const getStatusColor = (status) => {
           </div>
 
           <div v-else>
-            <div v-for="order in orders" :key="order.order_id" class="bg-white p-5 md:p-6 rounded-2xl border border-neutral-200 shadow-sm mb-6">
+            <div
+              v-for="order in orders"
+              :key="order.order_id"
+              class="bg-white p-5 md:p-6 rounded-2xl border border-neutral-200 shadow-sm mb-6"
+            >
               <div class="flex justify-between items-center mb-4">
                 <div>
-                  <span class="text-sm font-medium text-neutral-500">Order #{{ order.order_id }}</span>
-                  <span class="ml-2 text-sm text-neutral-500">{{ formatDate(order.createdAt) }}</span>
+                  <span class="text-sm font-medium text-neutral-500"
+                    >Order #{{ order.order_id }}</span
+                  >
+                  <span class="ml-2 text-sm text-neutral-500">{{
+                    formatDate(order.createdAt)
+                  }}</span>
                 </div>
                 <div class="flex items-center space-x-3">
-                  <span :class="['px-2 py-1 rounded text-xs font-medium', getStatusColor(order.order_status)]">
+                  <span
+                    :class="[
+                      'px-2 py-1 rounded text-xs font-medium',
+                      getStatusColor(order.order_status),
+                    ]"
+                  >
                     {{ order.order_status }}
                   </span>
-                  <button @click="openOrderDialog(order)" class="text-blue-600 hover:underline text-sm font-medium">View Details</button>
+                  <button
+                    @click="openOrderDialog(order)"
+                    class="text-blue-600 hover:underline text-sm font-medium"
+                  >
+                    View Details
+                  </button>
                 </div>
               </div>
-              <div v-for="item in order.order_items" :key="item.product_id" class="flex items-center gap-4 bg-neutral-50 rounded-xl p-3 mb-3">
-                <div class="w-16 h-16 bg-white border border-neutral-200 flex items-center justify-center overflow-hidden">
-                  <img v-if="item.product?.image" :src="item.product.image" class="object-contain w-full h-full"/>
+              <div
+                v-for="item in order.order_items"
+                :key="item.product_id"
+                class="flex items-center gap-4 bg-neutral-50 rounded-xl p-3 mb-3"
+              >
+                <div
+                  class="w-16 h-16 bg-white border border-neutral-200 flex items-center justify-center overflow-hidden"
+                >
+                  <img
+                    v-if="item.product?.image"
+                    :src="item.product.image"
+                    class="object-contain w-full h-full"
+                  />
                   <i v-else class="pi pi-image text-neutral-300 text-lg"></i>
                 </div>
                 <div class="flex-1 min-w-0">
                   <h4 class="text-sm font-bold text-neutral-800 truncate">
                     {{ item.product_name || item.product?.name || 'Unknown Product' }}
                   </h4>
-                  <p class="text-xs text-neutral-500 mt-1">Qty: {{ item.qty }} × {{ formatPrice(item.price) }}</p>
+                  <p class="text-xs text-neutral-500 mt-1">
+                    Qty: {{ item.qty }} × {{ formatPrice(item.price) }}
+                  </p>
                 </div>
                 <div class="text-right">
-                  <p class="text-sm font-bold text-neutral-900">{{ formatPrice(item.subtotal || item.price * item.qty) }}</p>
+                  <p class="text-sm font-bold text-neutral-900">
+                    {{ formatPrice(item.subtotal || item.price * item.qty) }}
+                  </p>
                 </div>
               </div>
               <div class="text-right font-bold text-lg mt-2 text-blue-600">
