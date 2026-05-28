@@ -163,75 +163,92 @@ const getStatusColor = (status) => {
             >
           </div>
 
-          <div v-else class="space-y-6">
+          <div v-else class="space-y-5">
             <div
               v-for="order in orders"
               :key="order.order_id"
-              class="bg-white p-6 md:p-8 rounded-[2rem] border border-neutral-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-shadow"
+              class="bg-white rounded-3xl border border-neutral-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
             >
+              <!-- Header -->
               <div
-                class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-neutral-100 pb-5 mb-5 gap-4"
+                class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 p-5 md:p-6 border-b border-neutral-100"
               >
-                <div>
-                  <p class="text-xs text-neutral-500 uppercase tracking-wider font-semibold mb-1">
+                <div class="space-y-1">
+                  <p class="text-xs font-semibold tracking-[0.2em] text-neutral-400 uppercase">
                     Order #{{ order.order_id }}
                   </p>
-                  <p class="text-sm font-medium text-neutral-800">
+
+                  <p class="text-sm text-neutral-600 font-medium">
                     {{ formatDate(order.createdAt || order.created_at) }}
                   </p>
                 </div>
-                <div class="flex items-center gap-4">
+
+                <div class="flex flex-wrap items-center gap-3">
                   <span
                     :class="[
-                      'px-3 py-1 text-xs font-bold rounded-full border',
+                      'px-4 py-1.5 rounded-full text-xs font-bold border',
                       getStatusColor(order.order_status),
                     ]"
                   >
                     {{ order.order_status }}
                   </span>
-                  <div class="text-right">
-                    <p class="text-xs text-neutral-500 uppercase tracking-wider font-semibold mb-1">
+
+                  <div class="bg-blue-50 px-4 py-2 rounded-2xl">
+                    <p class="text-[11px] uppercase tracking-wider text-blue-400 font-semibold">
                       Total
                     </p>
-                    <p class="text-lg font-black text-blue-600">
+
+                    <p class="text-lg font-black text-blue-600 leading-none">
                       {{ formatPrice(order.total_amount) }}
                     </p>
                   </div>
+
+                  <!-- Clean Button -->
                   <button
                     @click="openOrderDialog(order)"
-                    class="text-sm text-blue-600 hover:underline ml-auto"
+                    class="px-5 py-2.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-all duration-200 shadow-sm"
                   >
-                    View Details
+                    View Order
                   </button>
                 </div>
               </div>
 
-              <div class="space-y-4">
+              <!-- Order Items -->
+              <div class="p-5 md:p-6 space-y-4">
                 <div
                   v-for="item in order.order_items"
                   :key="item.product_id"
-                  class="flex items-center gap-4"
+                  class="flex items-center gap-4 bg-neutral-50 hover:bg-neutral-100 transition rounded-2xl p-3"
                 >
+                  <!-- Product Image -->
                   <div
-                    class="w-16 h-16 bg-neutral-50 rounded-xl flex items-center justify-center p-2 border border-neutral-100 flex-shrink-0"
+                    class="w-16 h-16 rounded-2xl bg-white border border-neutral-200 flex items-center justify-center overflow-hidden flex-shrink-0"
                   >
                     <img
                       v-if="item.product?.image"
                       :src="item.product.image"
-                      class="object-contain w-full h-full mix-blend-multiply"
+                      class="w-full h-full object-contain p-2"
                     />
+
                     <i v-else class="pi pi-image text-neutral-300 text-lg"></i>
                   </div>
+
+                  <!-- Product Info -->
                   <div class="flex-1 min-w-0">
-                    <h4 class="text-sm font-bold text-neutral-800 truncate">
+                    <h4 class="text-sm md:text-base font-bold text-neutral-800 truncate">
                       {{ item.product_name || item.product?.name || 'Unknown Product' }}
                     </h4>
-                    <p class="text-xs text-neutral-500 mt-1 font-medium">
-                      Qty: {{ item.qty }} x {{ formatPrice(item.price) }}
+
+                    <p class="text-xs text-neutral-500 mt-1">
+                      Qty: {{ item.qty }} × {{ formatPrice(item.price) }}
                     </p>
                   </div>
-                  <div class="text-sm font-bold text-neutral-900">
-                    {{ formatPrice(item.subtotal || item.price * item.qty) }}
+
+                  <!-- Price -->
+                  <div class="text-right">
+                    <p class="text-sm font-bold text-neutral-900">
+                      {{ formatPrice(item.subtotal || item.price * item.qty) }}
+                    </p>
                   </div>
                 </div>
               </div>
